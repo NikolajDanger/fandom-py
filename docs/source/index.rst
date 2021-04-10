@@ -8,7 +8,8 @@ fandom-py python package
    :maxdepth: 3
    :caption: Contents:
 
-   fandom
+   getting_started.rst
+   fandom.rst
 
 Indices and tables
 ==================

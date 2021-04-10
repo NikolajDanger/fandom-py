@@ -34,7 +34,7 @@ def set_wiki(wiki : str):
   for cached_func in (search, summary):
     cached_func.clear_cache()
 
-def set_lang(language):
+def set_lang(language : str):
   """
   Sets the global language variable
 
@@ -72,7 +72,7 @@ def set_rate_limiting(rate_limit : bool, min_wait : int = 50):
 
   u.RATE_LIMIT_LAST_CALL = None
 
-def set_user_agent(user_agent_string):
+def set_user_agent(user_agent_string : str):
   """
   Set the User-Agent string to be used for all requests.
 
@@ -131,7 +131,7 @@ def random(pages : int = 1, wiki : str = WIKI, language : str = LANG):
   :type wiki: str
   :type language: str
 
-  :returns: :class:`str` or :class:`list` of :class:`str`
+  :returns: :class:`str` if the pages parameter was 1, :class:`list` of :class:`str` if it was larger
   """
   wiki = wiki if wiki != "" else (WIKI if WIKI != "" else "runescape")
   language = language if language != "" else (LANG if LANG != "" else "en")
