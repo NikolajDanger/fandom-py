@@ -8,38 +8,38 @@ class TestPageSetUp(unittest.TestCase):
 
   def test_missing(self):
     """Test that page raises a PageError for a nonexistant page."""
-    purpleberry = lambda: fandom.page(subfandom="harrypotter", title="purpleberry")
+    purpleberry = lambda: fandom.page(wiki="harrypotter", title="purpleberry")
     self.assertRaises(fandom.error.PageError, purpleberry)
 
   def test_redirect_true(self):
     """Test that a page successfully redirects a query."""
     # no error should be raised if redirect is test_redirect_true
-    mp = fandom.page(subfandom="harrypotter", title="Professor Slughorn")
+    mp = fandom.page(wiki="harrypotter", title="Professor Slughorn")
 
     self.assertEqual(mp.title, "Horace Slughorn")
     self.assertEqual(mp.url, "https://harrypotter.fandom.com/en/wiki/Horace_Slughorn")
 
   def test_redirect_false(self):
     """Test that page raises an error on a redirect when redirect == False."""
-    mp = lambda: fandom.page(subfandom="harrypotter", title="The Potters", redirect=False)
+    mp = lambda: fandom.page(wiki="harrypotter", title="The Potters", redirect=False)
     self.assertRaises(fandom.error.RedirectError, mp)
 
   def test_redirect_no_normalization(self):
     """Test that a page with redirects but no normalization query loads correctly"""
-    the_party = fandom.page(subfandom="elderscrolls", title="Stormcloaks")
+    the_party = fandom.page(wiki="elderscrolls", title="Stormcloaks")
     self.assertIsInstance(the_party, fandom.FandomPage)
     self.assertEqual(the_party.title, "Stormcloaks")
 
   def test_redirect_with_normalization(self):
     """Test that a page redirect with a normalized query loads correctly"""
-    the_party = fandom.page(subfandom="elderscrolls", title="stormcloaks")
+    the_party = fandom.page(wiki="elderscrolls", title="stormcloaks")
     self.assertIsInstance(the_party, fandom.FandomPage)
     self.assertEqual(the_party.title, "Stormcloaks")
 
   def test_redirect_normalization(self):
     """Test that a page redirect loads correctly with or without a query normalization"""
-    capital_party = fandom.page(subfandom="elderscrolls", title="Stormcloaks")
-    lower_party = fandom.page(subfandom="elderscrolls", title="stormcloaks")
+    capital_party = fandom.page(wiki="elderscrolls", title="Stormcloaks")
+    lower_party = fandom.page(wiki="elderscrolls", title="stormcloaks")
 
     self.assertIsInstance(capital_party, fandom.FandomPage)
     self.assertIsInstance(lower_party, fandom.FandomPage)
@@ -50,13 +50,13 @@ class TestPage(unittest.TestCase):
   """Test the functionality of the rest of fandom.page."""
 
   def setUp(self):
-    self.grass = fandom.page(subfandom="starwars", title="Grass")
-    self.moisture_farm = fandom.page(subfandom="starwars", title="Moisture farm")
-    self.Boba_Fett= fandom.page(subfandom="starwars", title="Boba Fett")
+    self.grass = fandom.page(wiki="starwars", title="Grass")
+    self.moisture_farm = fandom.page(wiki="starwars", title="Moisture farm")
+    self.Boba_Fett= fandom.page(wiki="starwars", title="Boba Fett")
 
   def test_from_page_id(self):
     """Test loading from a page id"""
-    self.assertEqual(self.grass, fandom.page(subfandom="starwars", pageid=508340))
+    self.assertEqual(self.grass, fandom.page(wiki="starwars", pageid=508340))
 
   def test_title(self):
     """Test the title."""

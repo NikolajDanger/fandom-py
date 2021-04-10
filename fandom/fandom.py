@@ -14,22 +14,22 @@ import fandom.util as u
 mimetypes.init()
 
 LANG = ""
-SUBFANDOM = ""
+WIKI = ""
 
 def default_url():
-  subfandom = SUBFANDOM+"." if SUBFANDOM != "" else ""
+  wiki = WIKI+"." if WIKI != "" else ""
   language = LANG+"/" if LANG != "" else ""
-  return f"https://{subfandom}fandom.com/{language}"
+  return f"https://{wiki}fandom.com/{language}"
 
-def set_subfandom(subfandom : str):
+def set_wiki(wiki : str):
   """
-  Sets the global subfandom variable
+  Sets the global wiki variable
 
-  :param subfandom: The subfandom to set as the global subfandom variable
-  :type subfandom: str
+  :param wiki: The wiki to set as the global wiki variable
+  :type wiki: str
   """
-  global SUBFANDOM
-  SUBFANDOM = subfandom.lower() if subfandom else SUBFANDOM
+  global WIKI
+  WIKI = wiki.lower() if wiki else WIKI
 
   for cached_func in (search, summary):
     cached_func.clear_cache()
@@ -82,27 +82,27 @@ def set_user_agent(user_agent_string):
   u.USER_AGENT = user_agent_string
 
 @u.cache
-def search(query : str, subfandom : str = SUBFANDOM, language: str = LANG, results : str = 10):
+def search(query : str, wiki : str = WIKI, language: str = LANG, results : str = 10):
   """
   Do a fandom search.
 
   :param query: What to search for
-  :param subfandom: The subfandom to search in (defaults to the global subfandom variable)
+  :param wiki: The wiki to search in (defaults to the global wiki variable)
   :param language: The language to search in (defaults to the global language variable)
   :param results: The maximum number of results to be returned
   :type query: str
-  :type subfandom: str
+  :type wiki: str
   :type language: str
   :type results: int
 
   :returns: :class:`list`
   """
-  subfandom = subfandom if subfandom != "" else (SUBFANDOM if SUBFANDOM != "" else "runescape")
+  wiki = wiki if wiki != "" else (WIKI if WIKI != "" else "runescape")
   language = language if language != "" else (LANG if LANG != "" else "en")
 
   search_params = {
     'action': 'query',
-    'subfandom': subfandom,
+    'wiki': wiki,
     'lang': language,
     'srlimit': results,
     "list" : "search",
@@ -114,31 +114,31 @@ def search(query : str, subfandom : str = SUBFANDOM, language: str = LANG, resul
   try:
     search_results = (d['title'] for d in raw_results['query']["search"])
   except KeyError:
-    raise FandomError(query, subfandom, language)
+    raise FandomError(query, wiki, language)
   return list(search_results)
 
 
-def random(pages : int = 1, subfandom : str = SUBFANDOM, language : str = LANG):
+def random(pages : int = 1, wiki : str = WIKI, language : str = LANG):
   """
   Get a list of random fandom article titles.
 
   .. note:: Random only gets articles from namespace 0, meaning only articles
 
   :param pages: the number of random pages returned (max of 10)
-  :param subfandom: The subfandom to search (defaults to the global subfandom variable. If the global subfandom variable is not set, defaults to "runescape")
+  :param wiki: The wiki to search (defaults to the global wiki variable. If the global wiki variable is not set, defaults to "runescape")
   :param language: The language to search in (defaults to the global language variable. If  the global language variable is not set, defaults to english)
   :type pages: int
-  :type subfandom: str
+  :type wiki: str
   :type language: str
 
   :returns: :class:`str` or :class:`list` of :class:`str`
   """
-  subfandom = subfandom if subfandom != "" else (SUBFANDOM if SUBFANDOM != "" else "runescape")
+  wiki = wiki if wiki != "" else (WIKI if WIKI != "" else "runescape")
   language = language if language != "" else (LANG if LANG != "" else "en")
-  
+
   query_params = {
     'action': 'query',
-    'subfandom': subfandom,
+    'wiki': wiki,
     'lang': language,
     'list': 'random',
     'rnlimit':pages,
@@ -155,61 +155,61 @@ def random(pages : int = 1, subfandom : str = SUBFANDOM, language : str = LANG):
 
 
 @u.cache
-def summary(title : str, subfandom : str = SUBFANDOM, language : str = LANG, sentences : int = -1, redirect : bool = True):
+def summary(title : str, wiki : str = WIKI, language : str = LANG, sentences : int = -1, redirect : bool = True):
   """
   Plain text summary of the page with the requested title.
   Is just an implementation of :class:`FandomPage.summary`, but with the added
   functionality of requesting a specific amount of sentences.
-  
+
   :param title: The title of the page to get the summary of
-  :param subfandom: The subfandom to search (defaults to the global subfandom variable. If the global subfandom variable is not set, defaults to "runescape")
+  :param wiki: The wiki to search (defaults to the global wiki variable. If the global wiki variable is not set, defaults to "runescape")
   :param language: The language to search in (defaults to the global language variable. If  the global language variable is not set, defaults to english)
   :param sentences: The maximum number of sentences to output. Defaults to the whole summary
   :param redirect: Allow redirection without raising RedirectError
   :type title: str
-  :type subfandom: str
+  :type wiki: str
   :type language: str
   :type sentences: int
   :type redirect: bool
   """
-  subfandom = subfandom if subfandom != "" else (SUBFANDOM if SUBFANDOM != "" else "runescape")
+  wiki = wiki if wiki != "" else (WIKI if WIKI != "" else "runescape")
   language = language if language != "" else (LANG if LANG != "" else "en")
 
-  page_info = page(title, subfandom = subfandom, language = language, redirect=redirect)
+  page_info = page(title, wiki = wiki, language = language, redirect=redirect)
   summary = page_info.summary
 
   if sentences != -1:
-    periods = [m.start() for m in re.finditer(r'\. [A-Z]', summary)] 
+    periods = [m.start() for m in re.finditer(r'\. [A-Z]', summary)]
     if len(periods) >= sentences:
       summary = summary[:periods[sentences-1]+1]
 
   return summary
 
 
-def page(title : str = "", pageid : int = -1, subfandom : str = SUBFANDOM, language : str = LANG, redirect : bool = True, preload : bool = False):
+def page(title : str = "", pageid : int = -1, wiki : str = WIKI, language : str = LANG, redirect : bool = True, preload : bool = False):
   """
   Get a FandomPage object for the page in the sub fandom with title or the pageid (mutually exclusive).
 
   :param title: - the title of the page to load
   :param pageid: The numeric pageid of the page to load
-  :param subfandom: The subfandom to search (defaults to the global subfandom variable. If the global subfandom variable is not set, defaults to "runescape")
+  :param wiki: The wiki to search (defaults to the global wiki variable. If the global wiki variable is not set, defaults to "runescape")
   :param language: The language to search in (defaults to the global language variable. If  the global language variable is not set, defaults to english)
   :param redirect: Allow redirection without raising RedirectError
   :param preload: Load content, summary, images, references, and links during initialization
   :type title: str
   :type pageid: int
-  :type subfandom: str
+  :type wiki: str
   :type language: str
   :type redirect: bool
   :type preload: bool
   """
 
-  subfandom = subfandom if subfandom != "" else (SUBFANDOM if SUBFANDOM != "" else "runescape")
+  wiki = wiki if wiki != "" else (WIKI if WIKI != "" else "runescape")
   language = language if language != "" else (LANG if LANG != "" else "en")
-  
+
   if title != "":
-    return FandomPage(subfandom, language, title=title, redirect=redirect, preload=preload)
+    return FandomPage(wiki, language, title=title, redirect=redirect, preload=preload)
   elif pageid != -1:
-    return FandomPage(subfandom, language, pageid=pageid, preload=preload)
+    return FandomPage(wiki, language, pageid=pageid, preload=preload)
   else:
     raise ValueError("Either a title or a pageid must be specified")

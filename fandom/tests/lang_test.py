@@ -12,13 +12,13 @@ class TestLang(unittest.TestCase):
   def test_lang(self):
     fandom.set_lang("nl")
     self.assertEqual(fandom.default_url(), 'https://fandom.com/nl/')
-    fandom.set_subfandom("runescape")
+    fandom.set_wiki("runescape")
     self.assertEqual(fandom.default_url(), 'https://runescape.fandom.com/nl/')
     page = fandom.page("runes")
     self.assertEqual(page.language, "nl")
 
   def test_wrong_lang(self):
     fandom.set_lang("ln")
-    fandom.set_subfandom("runescape")
+    fandom.set_wiki("runescape")
     rp = lambda: fandom.page("runes")
     self.assertRaises(fandom.error.RequestError, rp)

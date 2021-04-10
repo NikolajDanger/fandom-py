@@ -8,7 +8,7 @@ from datetime import datetime
 
 from fandom.error import HTTPTimeoutError, RequestError
 
-API_URL = 'https://{subfandom}.fandom.com/{lang}/api.php'
+API_URL = 'https://{wiki}.fandom.com/{lang}/api.php'
 USER_AGENT = 'fandom (https://github.com/NikolajDanger/fandom-py/)'
 RATE_LIMIT = False
 RATE_LIMIT_MIN_WAIT = None
@@ -75,7 +75,7 @@ def _wiki_request(params):
     wait_time = (RATE_LIMIT_LAST_CALL + RATE_LIMIT_MIN_WAIT) - datetime.now()
     time.sleep(int(wait_time.total_seconds()))
 
-  params.pop("subfandom")
+  params.pop("wiki")
   params.pop("lang")
   r = requests.get(api_url, params=params, headers=headers)
 

@@ -9,7 +9,7 @@ from fandom.error import (
   PageError, RedirectError, HTTPTimeoutError, FandomError,
   ODD_ERROR_MESSAGE)
 
-STANDARD_URL = 'https://{subfandom}.fandom.com/{lang}/wiki/{page}'
+STANDARD_URL = 'https://{wiki}.fandom.com/{lang}/wiki/{page}'
 
 class FandomPage(object):
   """
@@ -22,11 +22,11 @@ class FandomPage(object):
   :ivar title: The title of the page
   :ivar pageid: The page id of the page
   :ivar language: The language of the page
-  :ivar subfandom: The subfandom the page is on
+  :ivar wiki: The wiki the page is on
   :ivar url: The url to the page
   """
 
-  def __init__(self, subfandom, language, title=None, pageid=None, redirect=True, preload=False):
+  def __init__(self, wiki, language, title=None, pageid=None, redirect=True, preload=False):
     if title is None and pageid is None:
       raise ValueError("Either a title or a pageid must be specified")
 
@@ -34,11 +34,11 @@ class FandomPage(object):
     self.pageid = pageid
     self.language = language
 
-    self.subfandom = subfandom
+    self.wiki = wiki
     try:
         self.__load(redirect=redirect, preload=preload)
     except AttributeError:
-        raise FandomError(title or pageid, subfandom, language)
+        raise FandomError(title or pageid, wiki, language)
     if preload:
       for prop in ('content', 'summary', 'images', 'sections'):
         getattr(self, prop)
@@ -65,7 +65,7 @@ class FandomPage(object):
     """
     query_params = {
       'action': 'query',
-      'subfandom': self.subfandom,
+      'wiki': self.wiki,
       'lang': self.language,
       'redirects': True
     }
@@ -85,7 +85,7 @@ class FandomPage(object):
     self.pageid = query['pageid']
     self.title = query['title']
     lang = query_params['lang']
-    self.url = STANDARD_URL.format(lang=lang, subfandom=self.subfandom,
+    self.url = STANDARD_URL.format(lang=lang, wiki=self.wiki,
                                    page=self.title.replace(" ","_"))
 
   def __continued_query(self, query_params):
@@ -165,7 +165,7 @@ class FandomPage(object):
           else:
             content[key] = content[key][1:] if content[key][0] == '\n' else content[key]
             content[key] = content[key][:-1] if content[key][-1] == '\n' else content[key]
-      
+
       if 'sections' in content:
         for s in content['sections']:
           s = clean(s)
@@ -250,7 +250,7 @@ class FandomPage(object):
 
     .. note::
       The revision ID is a number that uniquely identifies the current version of the page. It can be used to create the permalink or for other direct API calls.
-    
+
     :returns: :class:`int`
     """
 
@@ -258,7 +258,7 @@ class FandomPage(object):
       query_params = {
         'action': 'query',
         'pageids': self.pageid,
-        'subfandom': self.subfandom,
+        'wiki': self.wiki,
         'lang': self.language,
         'prop': "revisions"
       }
@@ -303,7 +303,7 @@ class FandomPage(object):
       query_params = {
         'action': "query",
         'pageids': str(self.pageid),
-        'subfandom': self.subfandom,
+        'wiki': self.wiki,
         'lang': self.language,
         'prop': "images",
         'imlimit': 500
@@ -354,10 +354,10 @@ class FandomPage(object):
 
     .. warning::
       When calling this function, subheadings in the section you asked for are part of the plain text. If you want more control of what data you get, you should use FandomPage.content
-    
+
     :param section_title: The title of the section you want the text from.
     :type section_title: str
-    
+
     :returns: :class:`str`
     """
     def get_section_recursive(sections, section_title = None):

@@ -17,7 +17,7 @@ Fandom data, not getting it.
   >>> fandom.search("Forest", "Runescape")
   # ['Forest', "Forester's Arms", 'Forester (Burgh de Rott Ramble)', 'Forester', 'Forest Beyond', 'Nemi Forest', 'Dense forest', 'Jungle forester', 'Freaky Forester', "Bartender (Forester's Arms)"]
 
-  >>> fandom.set_subfandom("Runescape")
+  >>> fandom.set_wiki("Runescape")
   >>> drakan = fandom.page("Castle Drakan")
   >>> drakan.title
   # u'Castle Drakan'

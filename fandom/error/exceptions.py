@@ -62,22 +62,22 @@ class HTTPTimeoutError(FandomException):
 
 class FandomError(FandomException):
   """Exception raised when the requested query can't be found"""
-  def __init__(self, query, subfandom, language):
+  def __init__(self, query, wiki, language):
     self.query = query
-    self.subfandom = subfandom
+    self.wiki = wiki
     self.language = language
 
   def __unicode__(self):
-    return u"Could not locate page \"{}\" on subfandom \"{}\" with language \"{}\"".format(self.query, self.subfandom, self.language)
+    return u"Could not locate page \"{}\" on wiki \"{}\" with language \"{}\"".format(self.query, self.wiki, self.language)
 
 class RequestError(FandomException):
   """
   Exception raised when the request does not return usable data.
-  Usually raised when the subfandom doesn't exist in the requested language
+  Usually raised when the wiki doesn't exist in the requested language
   """
   def __init__(self, url, params):
     self.url = url
     self.params = params
-  
+
   def __unicode__(self):
     return u"Your request to the url \"{url}\" with the paramaters \"{params}\" either returned nothing or returned data in a format other than JSON. Please check your input data.".format(url=self.url, params=self.params)
