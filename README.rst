@@ -43,7 +43,7 @@ To install fandom-py, simply run:
 
 fandom-py is compatible with Python 3.9+.
 
-Documentation
+Tests
 -------------
 
 To run tests, clone the `respository on GitHub <https://github.com/NikolajDanger/fandom-py>`__, then run:
@@ -51,19 +51,11 @@ To run tests, clone the `respository on GitHub <https://github.com/NikolajDanger
 ::
 
   $ pip install -r requirements.txt
-  $ bash runtests.bat  # will run tests for python3
-  $ runtests.bat # will run tests for python3 (windows)
+  $ bash runtests.bat  # will run tests for python
+  $ runtests.bat # will run tests for python (windows)
   $ python3 -m unittest discover -s fandom/tests -p '*test.py'  # manual style
 
 in the root project directory.
-
-To build the documentation yourself, after installing requirements.txt, run:
-
-::
-
-  $ pip install sphinx
-  $ cd docs/
-  $ make html
 
 License
 -------
