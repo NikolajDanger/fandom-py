@@ -46,3 +46,6 @@ Pipfile.lock
 
 # VS code
 .vscode/
+
+# Development
+tmp/

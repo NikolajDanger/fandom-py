@@ -2,11 +2,11 @@ fandom-py
 =========
 
 **fandom-py** is a Python library that makes it easy to access and parse
-data from any `Fandom website <https://www.fandom.com>`_
+data from any `Fandom website <https://www.fandom.com>`_.
 
 Search a Fandom, get article summaries, get data like links and images
 from a page, and more. *fandom-py* wraps the Fandom API so you can focus on using
-Fandom data, not getting it.´
+Fandom data, not getting it.
 
 .. code:: python
 
