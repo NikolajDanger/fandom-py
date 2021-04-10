@@ -1,0 +1,1 @@
+python3 -m unittest discover -s fandom/tests -p "*_test.py"
