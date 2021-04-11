@@ -309,7 +309,10 @@ class FandomPage(object):
         'imlimit': 500
       }
       request = _wiki_request(query_params)
-      images = [image['title'] for image in request['query']['pages'][str(self.pageid)]['images']]
+      if 'images' in request['query']['pages'][str(self.pageid)]:
+        images = [image['title'] for image in request['query']['pages'][str(self.pageid)]['images']]
+      else:
+        images = []
 
       query_params.pop('pageids')
       query_params['titles'] = images

@@ -11,6 +11,8 @@ class TestSearch(unittest.TestCase):
     search = fandom.search("Albus Dumbledore", language="en", wiki = "harrypotter")
     self.assertIsInstance(search, list)
     self.assertEqual(len(search), 10)
+    self.assertIsInstance(search[0], tuple)
+    self.assertEqual(len(search[0]), 2)
 
   def test_limit(self):
     """Test limiting a request results."""

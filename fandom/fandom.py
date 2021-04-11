@@ -82,9 +82,11 @@ def set_user_agent(user_agent_string : str):
   u.USER_AGENT = user_agent_string
 
 @u.cache
-def search(query : str, wiki : str = WIKI, language: str = LANG, results : str = 10):
+def search(query : str, wiki : str = WIKI, language: str = LANG, results : int = 10):
   """
   Do a fandom search.
+
+  The search returns a list of tuples, with the page title and the page id.
 
   :param query: What to search for
   :param wiki: The wiki to search in (defaults to the global wiki variable)
@@ -95,7 +97,7 @@ def search(query : str, wiki : str = WIKI, language: str = LANG, results : str =
   :type language: str
   :type results: int
 
-  :returns: :class:`list`
+  :returns: :class:`list` of :class:`tuple`
   """
   wiki = wiki if wiki != "" else (WIKI if WIKI != "" else "runescape")
   language = language if language != "" else (LANG if LANG != "" else "en")
@@ -112,7 +114,7 @@ def search(query : str, wiki : str = WIKI, language: str = LANG, results : str =
   raw_results = u._wiki_request(search_params)
 
   try:
-    search_results = (d['title'] for d in raw_results['query']["search"])
+    search_results = [(d['title'], d['pageid']) for d in raw_results['query']['search']]
   except KeyError:
     raise FandomError(query, wiki, language)
   return list(search_results)

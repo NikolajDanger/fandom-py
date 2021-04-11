@@ -11,11 +11,11 @@ Fandom data, not getting it.
 .. code:: python
 
   >>> import fandom
-  >>> print(fandom.summary("Banshee", "Runescape"))
+  >>> fandom.summary("Banshee", "Runescape")
   # Banshees are Slayer monsters that require level 15 Slayer to kill. They frequently drop 13 noted pure essence, making them an alternative source of essence. Additionally, banshees tend to frequently drop many different types of herbs. Mighty banshees are a higher-levelled alternative, if this is given as your Slayer assignment.
 
   >>> fandom.search("Forest", "Runescape")
-  # ['Forest', "Forester's Arms", 'Forester (Burgh de Rott Ramble)', 'Forester', 'Forest Beyond', 'Nemi Forest', 'Dense forest', 'Jungle forester', 'Freaky Forester', "Bartender (Forester's Arms)"]
+  # [('Forest', 158584), ("Forester's Arms", 13771), ('Forester (Burgh de Rott Ramble)', 37816), ('Forester', 37518), ('Forest Beyond', 498451), ('Nemi Forest', 538558), ('Jungle forester', 68434), ('Freaky Forester', 6805), ("Bartender (Forester's Arms)", 543117), ('Dense forest', 83395)]
 
   >>> fandom.set_wiki("Runescape")
   >>> drakan = fandom.page("Castle Drakan")
@@ -42,6 +42,11 @@ To install fandom-py, simply run:
   $ pip install fandom-py
 
 fandom-py is compatible with Python 3.9+.
+
+Documentation
+-------------
+
+You can find the documentation for fandom-py `here <https://fandom-py.readthedocs.io/en/latest/?>`_.
 
 Tests
 -------------

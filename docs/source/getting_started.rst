@@ -34,20 +34,18 @@ Now Kvothe has a lot of names, and we're not sure which one is used on his wiki 
 .. code-block:: python
 
     fandom.search("Kvothe", results = 1)
-    # ['Kvothe']
+    # [('Kvothe', 2230)]
 
-Seems like Kvothe's wiki page just has the title *Kvothe*. We can use this information to initiate a :class:`fandom.FandomPage` object for the wiki page. The :class:`fandom.FandomPage` object contains all usable information about the given page.
+Seems like Kvothe's wiki page just has the title *Kvothe*, and has the page id *2230*. We can use this information to initiate a :class:`fandom.FandomPage` object for the wiki page. The :class:`fandom.FandomPage` object contains all usable information about the given page.
 
 .. code-block:: python
 
     page = fandom.page(title = "Kvothe")
 
-Here we used the page title to initialize the page object, but if we had the page-id, we could also have used that:
+Here we used the page title to initialize the page object, but we could also have used the page id:
 
 .. code-block:: python
 
-    page.pageid
-    # 2230
     page2 = fandom.page(pageid = 2230)
     page2.title
     # Kvothe
