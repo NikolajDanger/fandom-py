@@ -314,14 +314,15 @@ class FandomPage(object):
       else:
         images = []
 
-      query_params.pop('pageids')
-      query_params['titles'] = images
-      query_params['prop'] = 'imageinfo'
-      query_params['iilimit'] = 5000
-      query_params['iiprop'] = 'url'
+      if images != []:
+        query_params.pop('pageids')
+        query_params['titles'] = images
+        query_params['prop'] = 'imageinfo'
+        query_params['iilimit'] = 5000
+        query_params['iiprop'] = 'url'
 
-      request = _wiki_request(query_params)
-      images = [page['imageinfo'][0]['url'] for page in request['query']['pages'].values() if 'imageinfo' in page]
+        request = _wiki_request(query_params)
+        images = [page['imageinfo'][0]['url'] for page in request['query']['pages'].values() if 'imageinfo' in page]
 
       self._images = images
     return self._images

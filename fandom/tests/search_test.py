@@ -24,7 +24,10 @@ class TestSearch(unittest.TestCase):
     """Test the random function."""
     random1 = fandom.random(wiki = "runescape")
     random2 = fandom.random(pages = 10, wiki = "runescape")
-    self.assertIsInstance(random1, str)
+    self.assertIsInstance(random1, tuple)
+    self.assertIsInstance(random1[0], str)
+    self.assertIsInstance(random1[1], int)
     self.assertIsInstance(random2, list)
+    self.assertIsInstance(random2[0], tuple)
     self.assertEqual(len(random2), 10)
 

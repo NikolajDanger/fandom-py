@@ -124,6 +124,8 @@ def random(pages : int = 1, wiki : str = WIKI, language : str = LANG):
   """
   Get a list of random fandom article titles.
 
+  Returns the results as tuples with the title and page id.
+
   .. note:: Random only gets articles from namespace 0, meaning only articles
 
   :param pages: the number of random pages returned (max of 10)
@@ -133,7 +135,7 @@ def random(pages : int = 1, wiki : str = WIKI, language : str = LANG):
   :type wiki: str
   :type language: str
 
-  :returns: :class:`str` if the pages parameter was 1, :class:`list` of :class:`str` if it was larger
+  :returns: :class:`tuple` if the pages parameter was 1, :class:`list` of :class:`tuple` if it was larger
   """
   wiki = wiki if wiki != "" else (WIKI if WIKI != "" else "runescape")
   language = language if language != "" else (LANG if LANG != "" else "en")
@@ -148,7 +150,7 @@ def random(pages : int = 1, wiki : str = WIKI, language : str = LANG):
   }
 
   request = u._wiki_request(query_params)
-  titles = [page['title'] for page in request['query']['random']]
+  titles = [(page['title'], page['id']) for page in request['query']['random']]
 
   if len(titles) == 1:
     return titles[0]

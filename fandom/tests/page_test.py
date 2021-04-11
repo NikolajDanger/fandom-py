@@ -53,6 +53,7 @@ class TestPage(unittest.TestCase):
     self.grass = fandom.page(wiki="starwars", title="Grass")
     self.moisture_farm = fandom.page(wiki="starwars", title="Moisture farm")
     self.Boba_Fett= fandom.page(wiki="starwars", title="Boba Fett")
+    self.holden_ledbury = fandom.page(wiki="harrypotter", title="Holden Ledbury")
 
   def test_from_page_id(self):
     """Test loading from a page id"""
@@ -91,6 +92,9 @@ class TestPage(unittest.TestCase):
     self.assertIsInstance(sorted(self.moisture_farm.images), list)
     self.assertLessEqual(1, len(self.grass.images))
     self.assertLessEqual(1, len(self.moisture_farm.images))
+
+  def test_no_images(self):
+    self.assertEqual(0, len(self.holden_ledbury.images))
 
   def test_html(self):
     """Test the full HTML property."""
