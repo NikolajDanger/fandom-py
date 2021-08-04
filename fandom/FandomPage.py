@@ -86,7 +86,7 @@ class FandomPage(object):
     self.title = query['title']
     lang = query_params['lang']
     self.url = STANDARD_URL.format(lang=lang, wiki=self.wiki,
-                                   page=self.title.replace(" ","_"))
+                                   page=self.title.replace(" ","_").replace("?","%3F"))
 
   def __continued_query(self, query_params):
     """
