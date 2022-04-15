@@ -234,7 +234,7 @@ class FandomPage(object):
             section_text = ""
             current_level = header_level
           #elif next_node.name == 'div':
-          elif (not next_node.has_attr('class')) or (next_node['class'][0] != "printfooter"):
+          elif (not next_node.has_attr('class')) or (next_node['class'] and next_node['class'][0] != "printfooter"):
             section_text += "\n"+next_node.get_text()
         next_node = next_node.nextSibling
 
